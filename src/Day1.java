@@ -28,14 +28,25 @@ For example:
 - R5, L5, R5, R3 leaves you 12 blocks away.
 
 How many blocks away is Easter Bunny HQ?
+
+--- Part Two ---
+
+Then, you notice the instructions continue on the back of the Recruiting Document. Easter Bunny HQ is actually at the first location you visit twice.
+
+For example, if your instructions are R8, R4, R4, R8, the first location you visit twice is 4 blocks away, due East.
+
+How many blocks away is the first location you visit twice?
 */
 
 import java.io.*;
+import java.util.*;
 
 public class Day1 {
 	public static void main(String args[]) {
 		
 		String[] instructions;
+		HashSet<String> coordinates = new HashSet<String>();
+		
 		int heading = 0; // 0 - face N; 1 - E; 2 - S; 3 - W
 		int xPos = 0;
 		int yPos = 0;
@@ -67,19 +78,48 @@ public class Day1 {
 				
 				// Update xPos and yPos based on heading
 				if (heading == 0) {
+					for (int j=0; j < Integer.parseInt(magnitude); j++) {
+						String currLoc = xPos + " " + (yPos + j + 1);
+						if (coordinates.contains(currLoc)) {
+							System.out.println("Repeat at " + currLoc);
+						}
+						coordinates.add(currLoc);
+					}
 					yPos = yPos + Integer.parseInt(magnitude);
 				}
 				else if (heading == 1) {
+					for (int j=0; j < Integer.parseInt(magnitude); j++) {
+						String currLoc = (xPos + j + 1) + " " + yPos;
+						if (coordinates.contains(currLoc)) {
+							System.out.println("Repeat at " + currLoc);
+						}
+						coordinates.add(currLoc);
+					}
 					xPos = xPos + Integer.parseInt(magnitude);
 				}
 				else if (heading == 2) {
+					for (int j=0; j < Integer.parseInt(magnitude); j++) {
+						String currLoc = xPos + " " + (yPos - j - 1);
+						if (coordinates.contains(currLoc)) {
+							System.out.println("Repeat at " + currLoc);
+						}
+						coordinates.add(currLoc);
+					}
 					yPos = yPos - Integer.parseInt(magnitude);
 				}
 				else { // heading == 3
+					for (int j=0; j < Integer.parseInt(magnitude); j++) {
+						String currLoc = (xPos - j - 1) + " " + yPos;
+						if (coordinates.contains(currLoc)) {
+							System.out.println("Repeat at " + currLoc);
+						}
+						coordinates.add(currLoc);
+					}
 					xPos = xPos - Integer.parseInt(magnitude);
 				}
 				
 				System.out.println(xPos + " " + yPos);
+
 			}
 			System.out.println("Num blocks: " + (Math.abs(xPos) + Math.abs(yPos)));
 			
