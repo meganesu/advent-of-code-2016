@@ -17,6 +17,23 @@ the "triangle" given above is impossible, because 5 + 10 is not larger than 25.
 
 In your puzzle input, how many of the listed triangles are possible?
 
+
+--- Part Two ---
+
+Now that you've helpfully marked up their design documents, it occurs to you that triangles are 
+specified in groups of three vertically. Each set of three numbers in a column specifies a triangle. 
+Rows are unrelated.
+
+For example, given the following specification, numbers with the same hundreds digit would be part of 
+the same triangle:
+
+101 301 501
+102 302 502
+103 303 503
+201 401 601
+202 402 602
+203 403 603
+In your puzzle input, and instead reading by columns, how many of the listed triangles are possible?
 */
 public class Day3 {
 
@@ -32,24 +49,27 @@ public class Day3 {
 			String input;
 			// Parse each line in the input file
 			while ((input = reader.readLine()) != null) {
-				System.out.println(input);
-				String[] sides = input.trim().split("\\s+");
-				System.out.println(sides[0]);
+				String[][] sides = new String[3][3];
+				sides[0] = input.trim().split("\\s+");
+				sides[1] = reader.readLine().trim().split("\\s+");
+				sides[2] = reader.readLine().trim().split("\\s+");
 				
-				int a = Integer.valueOf(sides[0]);
-				int b = Integer.valueOf(sides[1]);
-				int c = Integer.valueOf(sides[2]);
-				
-				if (a + b <= c) {
-					continue;
+				for (int i = 0; i < 3; i++) {
+					int a = Integer.valueOf(sides[0][i]);
+					int b = Integer.valueOf(sides[1][i]);
+					int c = Integer.valueOf(sides[2][i]);
+					
+					if (a + b <= c) {
+						continue;
+					}
+					else if (b + c <= a) {
+						continue;
+					}
+					else if (c + a <= b) {
+						continue;
+					}
+					numTriangles++;
 				}
-				else if (b + c <= a) {
-					continue;
-				}
-				else if (c + a <= b) {
-					continue;
-				}
-				numTriangles++;
 			}
 			
 			System.out.println(numTriangles);
